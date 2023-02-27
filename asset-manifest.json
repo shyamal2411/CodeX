@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/codeIt/static/css/main.4dd9d751.css",
+    "main.js": "/codeIt/static/js/main.f30a360f.js",
+    "index.html": "/codeIt/index.html",
+    "main.4dd9d751.css.map": "/codeIt/static/css/main.4dd9d751.css.map",
+    "main.f30a360f.js.map": "/codeIt/static/js/main.f30a360f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4dd9d751.css",
+    "static/js/main.f30a360f.js"
+  ]
+}

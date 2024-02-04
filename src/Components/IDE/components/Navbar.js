@@ -6,7 +6,7 @@ import { sizes } from "./Size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
-const NavbarComp = (props) => {
+const Navbar = (props) => {
   const fontSizes = [];
   const arr = [];
 
@@ -30,48 +30,54 @@ const NavbarComp = (props) => {
 
   return (
     <>
-      <div className="navbar p-3">
-        <NavBarPrefix name="Web Editor" />
-        <Col className="m-0 p-0">
-          <div>
-            <NavDropdown
-              title={props.fontSizeName}
-              menuVariant="dark"
-              id="fontsize"
-            >
-              {fontSizes}
-            </NavDropdown>
-          </div>
-        </Col>
-        <Col className="m-0 p-0">
-          <div>
-            <NavDropdown
-              title={props.currentLang.name}
-              menuVariant="dark"
-              id="language"
-            >
-              {arr}
-            </NavDropdown>
-          </div>
-        </Col>
-
-        <Col>
-          <div
-            className="justify-content-end"
-            id="runButton"
-            onClick={props.execute}
+      <div className="navbar p-3 justify-centre">
+        <span id="name" style={{ marginRight: "20px", marginLeft: "20px" }}>
+          Code <span style={{ color: "red" }}>X</span>
+        </span>
+        {/* <Col className="ml-10 p-0"> */}
+        <div>
+          <NavDropdown
+            title={props.fontSizeName}
+            menuVariant="dark"
+            id="fontsize"
+            style={{ fontSize: "20px", marginLeft: "350px" }}
           >
-            {/* <FontAwesomeIcon icon={faPlayCircle} size="1px"/> */}
-            <FontAwesomeIcon
-              icon={faPlayCircle}
-              size="1x"
-              spin={props.loading}
-            />{" "} {!props.loading ? "Run" : "Running"}
-          </div>
-        </Col>
+            {fontSizes}
+          </NavDropdown>
+        </div>
+        {/* </Col> */}
+        {/* <Col className="m-0 p-0 bg-red"> */}
+        <div>
+          <NavDropdown
+            title={props.currentLang.name}
+            menuVariant="dark"
+            id="language"
+            style={{ fontSize: "20px" }}
+          >
+            {arr}
+          </NavDropdown>
+        </div>
+        {/* </Col> */}
+
+        {/* <Col> */}
+        <div
+          className="justify-content-start"
+          style={{ marginRight: "400px" }}
+          id="runButton"
+          onClick={props.execute}
+        >
+          {/* <FontAwesomeIcon icon={faPlayCircle} size="1px" /> */}
+          <FontAwesomeIcon
+            icon={faPlayCircle}
+            size="1x"
+            spin={props.loading}
+          />{" "}
+          {!props.loading ? "Run" : "Running"}
+        </div>
+        {/* </Col> */}
       </div>
     </>
   );
 };
 
-export default NavbarComp;
+export default Navbar;

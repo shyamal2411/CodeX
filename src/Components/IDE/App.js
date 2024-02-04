@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import NavbarComp from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import { languages } from "./components/languages.js";
 import Playground from "./components/Playground.js";
 import axios from "axios";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
 export function App() {
   // languages compare function remaining intentionally.
@@ -68,7 +67,7 @@ export function App() {
   };
   return (
     <div>
-      <NavbarComp
+      <Navbar
         changeFontSize={changeFontSize}
         changeLang={handleClick}
         currentLang={currentLang}

@@ -5,26 +5,25 @@ import Playground from "./components/Playground.js";
 import axios from "axios";
 
 export function App() {
-  // languages compare function remaining intentionally.
-  const [fontSizeName, setFontSizeName] = useState("Small");
-  const [fontSize, setFontSize] = useState("18");
-  const [currentLang, setCurrentLang] = useState(languages[0]);
+  const [currentLang, setCurrentLang] = useState(languages[1]);
   const [value, setValue] = useState("");
   const [inputData, setInputData] = useState("");
   const [running, setRunning] = useState(false);
   const [outputData, setOutputData] = useState("");
+  const [fontSize, setFontSize] = useState({ name: "Small", value: "18" });
 
   function handleChange(v) {
     setValue(v);
   }
 
+  console.log(value);
+  console.log(currentLang.language_id);
   function handleInput(inp) {
     setInputData(inp);
   }
-
+  // console.log(inputData);
   function changeFontSize(newFontSize, newFontSizeName) {
-    setFontSize(newFontSize);
-    setFontSizeName(newFontSizeName);
+    setFontSize({ name: newFontSizeName, value: newFontSize });
   }
 
   function handleClick(newLang) {
@@ -35,36 +34,75 @@ export function App() {
   const getOutput = async () => {
     setOutputData("");
     setRunning(true);
-    console.log(value);
-    console.log(inputData);
 
-    var data = JSON.stringify({
-      code: value,
-      language: currentLang.extension,
-      input: inputData,
-    });
+    if (!value.trim()) {
+      setRunning(false);
+      setOutputData("Source code cannot be blank.");
+      return;
+    }
 
-    var config = {
+    // console.log(currentLang.language_id);
+    // console.log(value);
+    // console.log(inputData);
+    const encodedSourceCode = btoa(value);
+    // console.log("encodedSourceCode", encodedSourceCode);
+    const encodedStdin = btoa(inputData);
+    // console.log("encodedStdin", encodedStdin);
+
+    const submissionConfig = {
       method: "post",
-      url: "https://codex-api.herokuapp.com",
+      url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions?base64_encoded=true`,
       headers: {
         "Content-Type": "application/json",
+        "content-type": "application/json",
+        "x-rapidapi-host": process.env.REACT_APP_JUDGE0_API_HOST,
+        "x-rapidapi-key": process.env.REACT_APP_JUDGE0_API_KEY,
+        useQueryString: true,
       },
-      data: data,
+      data: JSON.stringify({
+        source_code: encodedSourceCode,
+        language_id: currentLang.language_id,
+        stdin: encodedStdin,
+      }),
     };
 
-    axios(config)
-      .then(function (response) {
-        setOutputData(response.data.output);
-        setRunning(false);
-        console.log(response.data.output);
-      })
-      .catch(function (error) {
-        setRunning(false);
-        console.log(error);
-        setOutputData(error);
-      });
+    try {
+      const response = await axios(submissionConfig);
+      const submissionToken = response.data.token;
+
+      const getResultConfig = {
+        method: "get",
+        url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions/${submissionToken}`,
+        headers: {
+          "content-type": "application/json",
+          "Content-Type": "application/json",
+          "x-rapidapi-host": process.env.REACT_APP_JUDGE0_API_HOST,
+          "x-rapidapi-key": process.env.REACT_APP_JUDGE0_API_KEY,
+          useQueryString: true,
+        },
+      };
+
+      const pollInterval = 1000;
+      let resultResponse;
+      do {
+        resultResponse = await axios(getResultConfig);
+        await new Promise((resolve) => setTimeout(resolve, pollInterval));
+      } while (resultResponse.data.status.id <= 2);
+
+      setRunning(false);
+
+      if (resultResponse.data.status.id === 3) {
+        setOutputData(resultResponse.data.stdout);
+      } else {
+        setOutputData(resultResponse.data.stderr);
+      }
+    } catch (error) {
+      setRunning(false);
+      console.log(error);
+      setOutputData(error.message || "An error occurred.");
+    }
   };
+
   return (
     <div>
       <Navbar
@@ -75,7 +113,6 @@ export function App() {
         execute={getOutput}
         loading={running}
         fontSize={fontSize}
-        fontSizeName={fontSizeName}
       />
       <Playground
         currentLang={currentLang}
@@ -83,7 +120,7 @@ export function App() {
         handleCode={handleChange}
         output={outputData}
         handleInput={handleInput}
-        fontSize={fontSize}
+        fontSize={fontSize.value}
       />
     </div>
   );

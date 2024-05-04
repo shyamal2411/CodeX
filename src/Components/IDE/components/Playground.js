@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Row, Col } from "react-bootstrap";
 import Input from "./Input";
 import Output from "./Output";
 
-function Playground(prop) {
+function Playground(props) {
   const [switchBackground, setSwitchBackground] = useState(true);
+
+  const handleEditorChange = (value, event) => {
+    props.handleCode(value);
+  };
+
+  const toggleTheme = () => {
+    setSwitchBackground(!switchBackground);
+  };
 
   return (
     <>
@@ -15,19 +23,20 @@ function Playground(prop) {
             <Editor
               width="60vw"
               height="100vh"
-              defaultLanguage={prop.currentLang.code}
-              defaultValue={prop.currentLang.sampleCode}
+              defaultLanguage={props.currentLang.code}
+              defaultValue={props.currentLang.sampleCode}
               theme={switchBackground ? "vs-dark" : "vs-light"}
-              onChange={(value) => prop.handleCode(value)}
-              options={{ fontSize: prop.fontSize }}
+              onChange={handleEditorChange}
+              options={{ fontSize: props.fontSize.value }}
             />
+            <button onClick={toggleTheme}>Toggle Theme</button>
           </Col>
           <Col className="p-0">
             <Row>
-              <Input inputHandler={prop.handleInput} />
+              <Input inputHandler={props.handleInput} />
             </Row>
             <Row>
-              <Output out={prop.output} />
+              <Output out={props.output} />
             </Row>
           </Col>
         </Row>

@@ -40,7 +40,7 @@ const Navbar = (props) => {
             title={props.fontSizeName}
             menuVariant="dark"
             id="fontsize"
-            style={{ fontSize: "20px", marginLeft: "350px" }}
+            style={{ fontSize: "20px", marginLeft: "350px", padding: "10px" }}
           >
             {fontSizes}
           </NavDropdown>
@@ -69,7 +69,7 @@ const Navbar = (props) => {
           {/* <FontAwesomeIcon icon={faPlayCircle} size="1px" /> */}
           <FontAwesomeIcon
             icon={faPlayCircle}
-            size="1x"
+            size="1px"
             spin={props.loading}
           />{" "}
           {!props.loading ? "Run" : "Running"}

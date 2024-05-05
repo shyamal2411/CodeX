@@ -44,6 +44,8 @@ export function App() {
 
     const encodedSourceCode = btoa(value);
     const encodedStdin = btoa(inputData);
+    console.log("encodedSourceCode", encodedSourceCode);
+    console.log("value decoded", atob(encodedSourceCode));
 
     const submissionConfig = {
       method: "post",
@@ -68,7 +70,7 @@ export function App() {
 
       const getResultConfig = {
         method: "get",
-        url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions/${submissionToken}`,
+        url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions/${submissionToken}?base64_encoded=true`,
         headers: {
           "content-type": "application/json",
           "Content-Type": "application/json",
@@ -88,9 +90,14 @@ export function App() {
       setRunning(false);
 
       if (resultResponse.data.status.id === 3) {
-        setOutputData(resultResponse.data.stdout);
+        setOutputData(atob(resultResponse.data.stdout));
+        console.log("ATOB: ", atob(resultResponse.data.stdout));
+        console.log("BTOA: ", btoa(resultResponse.data.stdout));
       } else {
-        setOutputData(resultResponse.data.stderr);
+        setOutputData(
+          atob(resultResponse.data.compile_output) ||
+            atob(resultResponse.data.status.description)
+        );
       }
     } catch (error) {
       setRunning(false);

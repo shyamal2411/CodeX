@@ -79,7 +79,7 @@ export function App() {
       };
 
       const pollInterval = 1000;
-      let resultResponse;
+      var resultResponse;
       do {
         resultResponse = await axios(getResultConfig);
         await new Promise((resolve) => setTimeout(resolve, pollInterval));

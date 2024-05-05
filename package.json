@@ -1,8 +1,7 @@
 {
-  "name": "codeit",
+  "name": "codex",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://shyamal2411.github.io/codeIt",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "github:fortawesome/react-fontawesome",

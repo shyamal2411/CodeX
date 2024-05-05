@@ -13,8 +13,8 @@ Online coding platform build with support of all major languages. Built with Rea
 Install the project with npm
 
 ```bash
-  git clone https://github.com/shyamal2411/codeIt
-  cd codeIt
+  git clone https://github.com/shyamal2411/codex
+  cd codex
 ```
 
 Install dependencies
@@ -25,7 +25,7 @@ npm install && npm start
 
 ## API Reference
 
-CodeIt uses Judge0 API by Rapid API for code compilation.
+CodeX uses Judge0 API by Rapid API for code compilation.
 
 **Steps for starting the backend**
 

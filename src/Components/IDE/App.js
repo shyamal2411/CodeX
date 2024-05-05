@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import { languages } from "./components/languages.js";
 import Playground from "./components/Playground.js";
 import axios from "axios";
+import { sizes } from "./components/Size";
 
 export function App() {
   const [currentLang, setCurrentLang] = useState(languages[1]);
@@ -10,14 +11,14 @@ export function App() {
   const [inputData, setInputData] = useState("");
   const [running, setRunning] = useState(false);
   const [outputData, setOutputData] = useState("");
-  const [fontSize, setFontSize] = useState({ name: "Small", value: "18" });
+  const [fontSize, setFontSize] = useState(sizes[1]);
 
   function handleChange(v) {
     setValue(v);
   }
 
-  console.log(value);
-  console.log(currentLang.language_id);
+  // console.log(value);
+  // console.log(currentLang.language_id);
   function handleInput(inp) {
     setInputData(inp);
   }
@@ -41,13 +42,8 @@ export function App() {
       return;
     }
 
-    // console.log(currentLang.language_id);
-    // console.log(value);
-    // console.log(inputData);
     const encodedSourceCode = btoa(value);
-    // console.log("encodedSourceCode", encodedSourceCode);
     const encodedStdin = btoa(inputData);
-    // console.log("encodedStdin", encodedStdin);
 
     const submissionConfig = {
       method: "post",
@@ -109,10 +105,11 @@ export function App() {
         changeFontSize={changeFontSize}
         changeLang={handleClick}
         currentLang={currentLang}
-        key={currentLang.code}
+        languages={languages}
         execute={getOutput}
         loading={running}
-        fontSize={fontSize}
+        fontSizes={sizes}
+        fontSizeName={fontSize.name}
       />
       <Playground
         currentLang={currentLang}

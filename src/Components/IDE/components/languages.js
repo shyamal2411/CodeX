@@ -1,10 +1,9 @@
-// languages.js
 export const languages = [
   {
     name: "Python",
     extension: "py",
     code: "python",
-    sampleCode: "print('Hello, World')",
+    sampleCode: "#print('Hello, World')",
     language_id: 92,
   },
   {
@@ -12,7 +11,7 @@ export const languages = [
     extension: "cpp",
     code: "cpp",
     sampleCode:
-      '#include<iostream>\nusing namespace std;\n\nint main(){\n    cout << "Hello World";\n    return 0;\n}',
+      '#include<iostream>\nusing namespace std;\n\nint main(){\n    //cout << "Hello World";\n    return 0;\n}',
     language_id: 52,
   },
   {
@@ -20,7 +19,7 @@ export const languages = [
     extension: "java",
     code: "java",
     sampleCode:
-      'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!"); \n    }\n}',
+      'public class Main {\n    public static void main(String[] args) {\n        //System.out.println("Hello, World!"); \n    }\n}',
     language_id: 91,
   },
 ];

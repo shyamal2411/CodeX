@@ -55,25 +55,28 @@ body {
 }
 
 #runButton {
-    padding: 5px 15px;
+    padding: 8px 15px;
+    margin: 0;
     background-color: #0c9463;
     color: white;
     font-weight: bold;
     border-radius: 40px;
-    zoom: 120%;
     cursor: pointer;
     text-align: center;
     width: 100px;
+    transition: all 0.3s ease;
 }
 
 #runButton:hover {
     background-color: crimson;
-    transition: 0.5s ease;
+    transition: background-color 0.3s ease;
 }
 
 #language,
 #fontsize {
     color: black;
+    min-width: 120px !important;
+    padding: 6px 15px;
     width: 100px !important;
     text-align: center;
     border-radius: 40px;

@@ -1,6 +1,6 @@
 export const sizes = [
   {
-    name: "extraSmall",
+    name: "Extra Small",
     value: "14",
   },
   {

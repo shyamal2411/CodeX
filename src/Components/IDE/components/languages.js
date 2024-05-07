@@ -22,4 +22,19 @@ export const languages = [
       'public class Main {\n    public static void main(String[] args) {\n        //System.out.println("Hello, World!"); \n    }\n}',
     language_id: 91,
   },
+  {
+    name: "Go",
+    extension: "go",
+    code: "go",
+    sampleCode:
+      'package main\n\nimport "fmt"\n\nfunc main() {\n    //fmt.Println("Hello, World")\n}',
+    language_id: 95,
+  },
+  {
+    name: "Typescript",
+    extension: "ts",
+    code: "typescript",
+    sampleCode: '// console.log("Hello, World")',
+    language_id: 74,
+  },
 ];

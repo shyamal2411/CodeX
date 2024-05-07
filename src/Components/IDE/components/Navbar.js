@@ -14,7 +14,7 @@ const Navbar = (props) => {
   ));
 
   return (
-    <div className="navbar p-3 border-b-2 border-black">
+    <div className="navbar p-3 border-b-2 border-slate-700">
       <span id="name" style={{ marginLeft: "20px" }}>
         Code <span style={{ color: "red" }}>X</span>
       </span>
@@ -37,7 +37,11 @@ const Navbar = (props) => {
           title={props.currentLang.name}
           menuVariant="dark"
           id="language"
-          style={{ fontSize: `${props.fontSize}px` }}
+          style={{
+            fontSize: `${props.fontSize}px`,
+            marginLeft: "20px",
+            padding: "10px",
+          }}
         >
           {props.languages.map((lang) => (
             <NavDropdown.Item
@@ -51,7 +55,7 @@ const Navbar = (props) => {
       </div>
       <div
         className="justify-content-start"
-        style={{ marginRight: "400px", width: "100px" }}
+        style={{ marginRight: "400px", minWidth: "120px" }}
         id="runButton"
         onClick={props.execute}
       >

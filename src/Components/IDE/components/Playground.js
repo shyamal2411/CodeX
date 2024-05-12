@@ -3,8 +3,6 @@ import Editor from "@monaco-editor/react";
 import { Row, Col, Button } from "react-bootstrap";
 import Input from "./Input";
 import Output from "./Output";
-// import SplitterLayout from "react-splitter-layout";
-// import "react-splitter-layout/lib/index.css";
 
 function Playground(props) {
   const [switchBackground, setSwitchBackground] = useState(true);
@@ -19,7 +17,6 @@ function Playground(props) {
 
   return (
     <div className="playground">
-      {/* <SplitterLayout> */}
       <Row>
         <Col>
           <Editor
@@ -48,7 +45,6 @@ function Playground(props) {
           </Row>
         </Col>
       </Row>
-      {/* </SplitterLayout> */}
     </div>
   );
 }

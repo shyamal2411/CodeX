@@ -91,8 +91,8 @@ export function App() {
 
       if (resultResponse.data.status.id === 3) {
         setOutputData(atob(resultResponse.data.stdout));
-        console.log("ATOB: ", atob(resultResponse.data.stdout));
-        console.log("BTOA: ", btoa(resultResponse.data.stdout));
+        // console.log("ATOB: ", atob(resultResponse.data.stdout));
+        // console.log("BTOA: ", btoa(resultResponse.data.stdout));
       } else {
         setOutputData(
           atob(resultResponse.data.compile_output) ||
@@ -101,7 +101,7 @@ export function App() {
       }
     } catch (error) {
       setRunning(false);
-      console.log(error);
+      // console.log(error);
       setOutputData(error.message || "An error occurred.");
     }
   };

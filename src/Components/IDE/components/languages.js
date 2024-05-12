@@ -31,6 +31,13 @@ export const languages = [
     language_id: 95,
   },
   {
+    name: "Javascript",
+    extension: "js",
+    code: "javascript",
+    sampleCode: '// console.log("Hello, World")',
+    language_id: 93,
+  },
+  {
     name: "Typescript",
     extension: "ts",
     code: "typescript",

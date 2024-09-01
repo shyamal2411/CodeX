@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,24 @@ const Navbar = (props) => {
       {size.name}
     </NavDropdown.Item>
   ));
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (
+        // (isMac && event.metaKey && event.key === "Enter") ||
+        event.ctrlKey &&
+        event.key === "Enter"
+      ) {
+        props.execute();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [props]);
 
   return (
     <div className="navbar p-3 border-b-2 border-slate-700">

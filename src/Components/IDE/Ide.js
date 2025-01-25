@@ -36,26 +36,24 @@ export function App() {
     setOutputData("");
     setRunning(true);
 
-    if (!value.trim()) {
+    const codeToExecute = value.trim() || currentLang.sampleCode;
+
+    if (!codeToExecute.trim()) {
       setRunning(false);
       setOutputData("Source code cannot be blank.");
       return;
     }
 
-    const encodedSourceCode = btoa(value);
+    const encodedSourceCode = btoa(codeToExecute);
     const encodedStdin = btoa(inputData);
-    console.log("encodedSourceCode", encodedSourceCode);
-    console.log("value decoded", atob(encodedSourceCode));
 
     const submissionConfig = {
       method: "post",
       url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions?base64_encoded=true`,
       headers: {
         "Content-Type": "application/json",
-        "content-type": "application/json",
         "x-rapidapi-host": process.env.REACT_APP_JUDGE0_API_HOST,
         "x-rapidapi-key": process.env.REACT_APP_JUDGE0_API_KEY,
-        useQueryString: true,
       },
       data: JSON.stringify({
         source_code: encodedSourceCode,
@@ -72,16 +70,14 @@ export function App() {
         method: "get",
         url: `https://${process.env.REACT_APP_JUDGE0_API_HOST}/submissions/${submissionToken}?base64_encoded=true`,
         headers: {
-          "content-type": "application/json",
           "Content-Type": "application/json",
           "x-rapidapi-host": process.env.REACT_APP_JUDGE0_API_HOST,
           "x-rapidapi-key": process.env.REACT_APP_JUDGE0_API_KEY,
-          useQueryString: true,
         },
       };
 
       const pollInterval = 1000;
-      var resultResponse;
+      let resultResponse;
       do {
         resultResponse = await axios(getResultConfig);
         await new Promise((resolve) => setTimeout(resolve, pollInterval));
@@ -91,20 +87,28 @@ export function App() {
 
       if (resultResponse.data.status.id === 3) {
         setOutputData(atob(resultResponse.data.stdout));
-        // console.log("ATOB: ", atob(resultResponse.data.stdout));
-        // console.log("BTOA: ", btoa(resultResponse.data.stdout));
-      } else {
-        setOutputData(
+      } else if (resultResponse.data.status.id === 6) {
+        const compileOutput =
           atob(resultResponse.data.compile_output) ||
-            atob(resultResponse.data.status.description)
-        );
+          "Compilation failed with no output.";
+        setOutputData(`Compilation Error: ${compileOutput}`);
+      } else {
+        const errorOutput =
+          atob(resultResponse.data.stderr) ||
+          atob(resultResponse.data.status.description);
+        setOutputData(`Error: ${errorOutput}`);
       }
     } catch (error) {
       setRunning(false);
-      // console.log(error);
       setOutputData(error.message || "An error occurred.");
     }
   };
+
+  function handleKeyDown(event) {
+    if (event.ctrlKey && event.key === "Enter") {
+      getOutput();
+    }
+  }
 
   return (
     <div>
@@ -125,6 +129,7 @@ export function App() {
         output={outputData}
         handleInput={handleInput}
         fontSize={fontSize.value}
+        onKeyDown={handleKeyDown}
       />
     </div>
   );
